@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Male Diet Plan and BMI Calculator</title>
+    <link rel="stylesheet" href="planner.css">
+
+</head>
+<body>
+
+    <div class="container">
+        <h1>Male Diet Plan and BMI Calculator</h1>
+
+        <!-- Form for Male BMI and Diet Plan -->
+        <form id="dietFormMale">
+            <label for="heightMale">Height (in inches):</label>
+            <input type="number" id="heightMale" name="heightMale" placeholder="Enter height in inches" required>
+
+            <label for="weightMale">Weight (in pounds):</label>
+            <input type="number" id="weightMale" name="weightMale" placeholder="Enter weight in pounds" required>
+
+            <label for="ageMale">Age:</label>
+            <input type="number" id="ageMale" name="ageMale" placeholder="Enter age" required>
+
+            <label for="goalMale">Fitness Goal:</label>
+            <div class="radio-group" id="goalMale">
+                <input type="radio" id="maintain" name="goal" value="maintain">
+                <label for="maintain"><img src="pics/Maintain.jpg" alt="">maintain</label>
+                
+                <input type="radio" id="weight loss" name="goal" value="weight loss">
+                <label for="weight loss"><img src="pics/looseMale.jpg" alt="">weight loss</label>
+                
+                <input type="radio" id="muscle gain" name="goal" value="muscle gain">
+                <label for="muscle gain"><img src="pics/msucleMale.jpg" alt="">muscle gain</label>
+                    
+            </div>
+            <!-- <select id="goalMale" name="goalMale" required>
+                <option value="maintain">Maintain weight</option>
+                <option value="weight loss">Weight loss</option>
+                <option value="muscle gain">Muscle gain</option>
+            </select> -->
+
+            <label for="bodyTypeMale">Body Type:</label>
+            <div class="radio-group" id="bodyTypeMale">
+                <input type="radio" id="ectomorph" name="body-type" value="ectomorph">
+                <label for="ectomorph"><img src="pics/ectomorphMale.jpg" alt="">Ectomorph</label>
+                
+                <input type="radio" id="endomorph" name="body-type" value="endomorph">
+                <label for="endomorph"><img src="pics/edomorphMale.jpg" alt="">Endomorph</label>
+                
+                <input type="radio" id="mesomorph" name="body-type" value="mesomorph">
+                <label for="mesomorph"><img src="pics/mesomorphMale.jpg" alt="">Mesomorph</label>
+                    
+            </div>
+
+            <!-- <select id="bodyTypeMale" name="bodyTypeMale" required>
+                <option value="ectomorph">Ectomorph</option>
+                <option value="mesomorph">Mesomorph</option>
+                <option value="endomorph">Endomorph</option>
+            </select> -->
+
+            <button type="submit">Calculate</button>
+        </form>
+
+        <!-- Results Section -->
+        <div id="resultsMale" class="results"></div>
+    </div>
+
+    <!-- Script linking the JavaScript code provided -->
+    <script src="plannerM.js"></script>
+        
+</body>
+</html>

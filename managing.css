@@ -1,0 +1,34 @@
+
+.container { max-width: 800px; margin: 0 auto; }
+         table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
+        th, td { padding: 10px; border: 1px solid #ddd; text-align: left; vertical-align: top; } */
+        #total { font-weight: bold; }
+        #quantity-container { display: none; }
+        #quantity-amount { display: none; }
+
+       
+
+  .table,th,td{
+    border: 2px solid;
+    padding: 10px;
+    
+    
+    
+ } 
+
+ .head{
+    text-align: center;
+ }
+
+
+ body{
+   background-image: url(planner/pics/PAGE\ -\ Copy.jpg);
+     
+}
+
+
+
+ 
+
+
+ 
