@@ -4,36 +4,31 @@ document.getElementById("dietFormMale").addEventListener("submit", function (e) 
     const height = parseFloat(document.getElementById("heightMale").value);
     const age = parseInt(document.getElementById("ageMale").value);
     const weight = parseFloat(document.getElementById("weightMale").value);
-    const goal = document.getElementById("goalMale"); 
-    const bodyType = document.getElementById("bodyTypeMale");
+    const goal = document.querySelector('input[name="goal"]:checked').value; // Get selected goal
+    const bodyType = document.querySelector('input[name="body-type"]:checked').value; // Get selected body type
 
     const bmi = calculateBMIMale(weight, height);
     const bmr = calculateBMRMale(weight, height, age);
-    const caloricNeeds = adjustCaloriesForGoal(bmr, selectedOption);
-    const bgi = calculateBGI(selectedBodyType);
+    const caloricNeeds = adjustCaloriesForGoal(bmr, goal);
+    const bgi = calculateBGI(bodyType);
 
     const dietPlan = generateDietPlan(bgi, caloricNeeds);
     
-    displayResults(dietPlan, caloricNeeds, bgi, bmi, bmr, "resultsMale");
+    displayResults(dietPlan, caloricNeeds, bgi, bmi, bmr, weight, goal); // Pass weight and goal to displayResults
 });
 
-let selectedOption;
-let selectedBodyType;
-
-goalMale.addEventListener('change', function() {
-    // Get the selected radio button value
-    selectedOption = document.querySelector('input[name="goal"]:checked').value;
-    
-    // Log the selected option
-    console.log('Selected option:', selectedOption);
+document.querySelectorAll('input[name="goal"]').forEach(radio => {
+    radio.addEventListener('change', function() {
+        const selectedOption = document.querySelector('input[name="goal"]:checked').value;
+        console.log('Selected option:', selectedOption);
+    });
 });
 
-bodyTypeMale.addEventListener('change', function() {
-    // Get the selected radio button value
-    selectedBodyType = document.querySelector('input[name="body-type"]:checked').value;
-    
-    // Log the selected option
-    console.log('Selected BodyType:', selectedBodyType);
+document.querySelectorAll('input[name="body-type"]').forEach(radio => {
+    radio.addEventListener('change', function() {
+        const selectedBodyType = document.querySelector('input[name="body-type"]:checked').value;
+        console.log('Selected BodyType:', selectedBodyType);
+    });
 });
 
 function calculateBMIMale(weight, height) {
@@ -64,6 +59,26 @@ function calculateBGI(selectedBodyType) {
     } else {
         return 80;
     }
+}
+
+function calculateProteinIntake(weight, goal) {
+    const weightInKg = weight * 0.453592; // Convert weight from pounds to kg
+    let proteinIntake;
+
+    switch (goal) {
+        case "weight loss":
+            proteinIntake = weightInKg * 1.4; // Average of 1.2 to 1.6
+            break;
+        case "muscle gain":
+            proteinIntake = weightInKg * 1.9; // Average of 1.6 to 2.2
+            break;
+        case "maintain":
+        default:
+            proteinIntake = weightInKg * 1.1; // Average of 1.0 to 1.2
+            break;
+    }
+
+    return proteinIntake.toFixed(2); // Return protein intake rounded to two decimal places
 }
 
 function generateDietPlan(bgi, caloricIntake) {
@@ -99,7 +114,7 @@ function chooseFoodsForMeal(calorieTarget, targetBGI, foodItems) {
         const foodInfo = foodItems[foodName];
 
         if (foodInfo.calories <= remainingCalories && totalBGI + foodInfo.bgi <= targetBGI) {
-            const portionSize = remainingCalories / foodInfo.calories;
+            const portionSize = Math.min(remainingCalories / foodInfo.calories, 1);
             mealPlan.push({
                 food: foodName,
                 quantity: `${(portionSize * 100).toFixed(0)}g`,
@@ -118,7 +133,7 @@ function chooseFoodsForMeal(calorieTarget, targetBGI, foodItems) {
     return mealPlan;
 }
 
-function displayResults(dietPlan, caloricNeeds, bgi, bmi, bmr) {
+function displayResults(dietPlan, caloricNeeds, bgi, bmi, bmr, weight, goal) {
     const resultsDiv = document.getElementById("resultsMale");
     
     let bmiCategory = "";
@@ -132,10 +147,13 @@ function displayResults(dietPlan, caloricNeeds, bgi, bmi, bmr) {
         bmiCategory = "Obese";
     }
 
+    const proteinIntake = calculateProteinIntake(weight, goal); // Calculate protein intake
+
     resultsDiv.innerHTML = `<h2>Your BMR: ${bmr.toFixed(2)} calories/day</h2>
                             <h2>Your BMI: ${bmi} (${bmiCategory})</h2>
                             <h2>Your Daily Caloric Needs: ${caloricNeeds.toFixed(2)} calories</h2>
-                            <h2>Your Target BGI: ${bgi}</h2>`;
+                            <h2>Your Target BGI: ${bgi}</h2>
+                            <h2>Your Daily Protein Intake: ${proteinIntake} grams</h2>`; // Display protein intake
 
     ["breakfast", "lunch", "dinner"].forEach((meal, index) => {
         const mealPlan = dietPlan[index];
